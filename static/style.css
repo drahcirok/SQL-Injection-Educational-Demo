@@ -1,0 +1,31 @@
+/* static/style.css */
+
+body { 
+    padding: 20px; 
+    background-color: #f8f9fa; 
+}
+.container { 
+    max-width: 800px; 
+}
+.card { 
+    margin-bottom: 20px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+}
+.vulnerable { 
+    border-left: 5px solid #dc3545; 
+}
+.secure { 
+    border-left: 5px solid #28a745; 
+}
+.payload-box { 
+    background-color: #fff3cd; 
+    border: 1px solid #ffeaa7; 
+    padding: 10px; 
+    border-radius: 5px; 
+}
+.code { 
+    background-color: #f8f9fa; 
+    padding: 10px; 
+    border-radius: 5px; 
+    font-family: monospace; 
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demostración SQL Injection - Universidad</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Demostración Educativa: SQL Injection</h1>
+        <p class="text-center text-muted">Universidad - Curso de Seguridad en Aplicaciones Web</p>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card vulnerable">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">Login Vulnerable</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="/login_vulnerable" method="POST">
+                            <div class="mb-3">
+                                <label for="username_vuln" class="form-label">Usuario:</label>
+                                <input type="text" class="form-control" id="username_vuln" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password_vuln" class="form-label">Contraseña:</label>
+                                <input type="password" class="form-control" id="password_vuln" name="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-danger w-100">Iniciar Sesión (Vulnerable)</button>
+                        </form>
+                        <hr>
+                        <div class="mt-3">
+                            <h6>Payload de ejemplo:</h6>
+                            <div class="payload-box">
+                                <strong>Usuario:</strong> admin' --<br>
+                                <strong>Contraseña:</strong> (cualquier cosa)
+                            </div>
+                            <small class="text-muted">Intenta inyectar SQL en este formulario</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card secure">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Login Seguro</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="/login_secure" method="POST">
+                            <div class="mb-3">
+                                <label for="username_sec" class="form-label">Usuario:</label>
+                                <input type="text" class="form-control" id="username_sec" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password_sec" class="form-label">Contraseña:</label>
+                                <input type="password" class="form-control" id="password_sec" name="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Iniciar Sesión (Seguro)</button>
+                        </form>
+                        <hr>
+                        <div class="mt-3">
+                            <h6>Protecciones:</h6>
+                            <ul class="small">
+                                <li>Consultas parametrizadas</li>
+                                <li>Escapado de caracteres especiales</li>
+                                <li>Prevención de inyección SQL</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if result %}
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Resultado</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Método:</strong> {{ result.method }}</p>
+                <p><strong>Consulta SQL:</strong></p>
+                <div class="code">{{ result.query }}</div>
+                <p class="mt-3">
+                    {% if result.success %}
+                    <span class="badge bg-success">Autenticación exitosa</span><br>
+                    <strong>Usuario:</strong> {{ result.user }}
+                    {% else %}
+                    <span class="badge bg-danger">Autenticación fallida</span><br>
+                    <strong>Error:</strong> {{ result.error }}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="card mt-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Información para la demostración</h5>
+            </div>
+            <div class="card-body">
+                <p>Base de datos inicializada con un usuario:</p>
+                <ul>
+                    <li><strong>Usuario:</strong> admin</li>
+                    <li><strong>Contraseña:</strong> admin123</li>
+                </ul>
+                <p>Intenta inyectar SQL en el formulario vulnerable para:</p>
+                <ol>
+                    <li>Acceder como admin sin contraseña</li>
+                    <li>Obtener todos los usuarios de la tabla</li>
+                    <li>Ejecutar comandos SQL arbitrarios</li>
+                </ol>
+                <a href="/reset" class="btn btn-outline-primary">Reiniciar Base de Datos</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
